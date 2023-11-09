@@ -1,0 +1,43 @@
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+app.post("/kecepatan", (req, res) => {
+    const { type, diket1, diket2 } = req.body;
+    let hasil = 0;
+    let response;
+
+    if (type === "v") {
+        hasil = Number(diket1) / Number(diket2);
+        response = {
+            Soal: "Mencari kecepatan(Velocity) per detik",
+            Jarak: diket1 + ' meter',
+            Waktu: diket2 + ' detik',
+            Hasil: hasil + ' m/detik',
+        };
+    } else if (type === "s") {
+        hasil = Number(diket1) * Number(diket2);
+        response = {
+            Soal: "Mencari Jarak(Space)",
+            Kecepatan: diket1 + ' m/detik',
+            Waktu: diket2 + ' detik',
+            Hasil: hasil + ' meter',
+        };
+    } else if (type === "t") {
+        hasil = Number(diket1) / Number(diket2);
+        response = {
+            Soal: "Mencari Waktu(Time)",
+            Jarak: diket1 + ' Meter',
+            Kecepatan: diket2 + ' m/detik',
+            Hasil: hasil.toFixed(2) + ' detik',
+        };
+    } else {
+        response = "Tipe tidak ada!\nCoba salah satu dari berikut Tipe:[v,s,t]";
+    }
+
+    res.json(response);
+});
+
+app.listen(8000, () => {
+    console.log('Server is running on port 8000');
+});
